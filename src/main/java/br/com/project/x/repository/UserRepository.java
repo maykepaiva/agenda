@@ -1,14 +1,13 @@
 package br.com.project.x.repository;
 
 import br.com.project.x.domain.entity.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean findByEmail(String email);
+    User findByEmail(String email);
 }

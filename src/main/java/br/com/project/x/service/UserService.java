@@ -6,21 +6,32 @@ import br.com.project.x.domain.entity.User;
 import br.com.project.x.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository repository;
-    private User user;
     private final ModelMapper mapper = new ModelMapper();
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserResponse createUser(UserRequest userRequest) {
-        if(repository.findByEmail(userRequest.getEmail())){
+        User emailValidate = repository.findByEmail(userRequest.getEmail());
+        if (emailValidate != null) {
             throw new RuntimeException("Email já cadastrado");
         }
+        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         User userEntity = repository.save(mapper.map(userRequest, User.class));
-        return mapper.map(userEntity,UserResponse.class);
+        return mapper.map(userEntity, UserResponse.class);
+    }
+
+    public List<User> findAllUser() {
+        return repository.findAll();
     }
 }
