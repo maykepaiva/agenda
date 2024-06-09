@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContactResponse {
 
-    private Long id;
+    private Long idContact;
     private String nome;
     private String cpf;
     private String telefone;

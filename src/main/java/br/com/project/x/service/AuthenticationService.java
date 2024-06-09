@@ -71,7 +71,7 @@ public class AuthenticationService implements UserDetailsService {
                     .getSubject();
 
         } catch (JWTVerificationException exception) {
-            return "";
+            throw new RuntimeException("Erro ao tentar validar token" + exception.getMessage());
         }
     }
 //    public TokenResponse obterRefreshToken(String refreshToken) throws UnauthorizedException {

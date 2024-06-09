@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContactRequest {
 
-    private Long id;
+    private Long idContact;
     private String nome;
     private String cpf;
     private String telefone;
@@ -18,6 +18,5 @@ public class ContactRequest {
     private String cep;
     private double latitude;
     private double longitude;
-    private Long usuarioId;
 
 }

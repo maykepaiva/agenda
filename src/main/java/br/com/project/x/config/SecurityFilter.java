@@ -26,14 +26,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = extraiTokeHeader(request);
+        String token = extraiTokenHeader(request);
 
         if (token != null) {
             String email = authenticationService.validaTokenJwt(token);
             User user = userRepository.findByEmail(email);
 
             if (user == null) {
-                throw new UnavailableException("Unauthorizad");
+                throw new UnavailableException("Unauthorizade");
             }
 
             var autentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -44,7 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    public String extraiTokeHeader(HttpServletRequest request) {
+    public String extraiTokenHeader(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
 
         if (authHeader == null) {
