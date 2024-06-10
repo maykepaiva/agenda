@@ -41,10 +41,10 @@ public class Contact {
     private String CEP;
 
     @Column
-    private Double latitude;
+    private String latitude;
 
     @Column
-    private Double longitude;
+    private String longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
