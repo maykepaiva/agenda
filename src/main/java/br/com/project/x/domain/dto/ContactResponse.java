@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContactResponse {
 
-    private Long idContact;
     private String nome;
     private String cpf;
     private String telefone;
     private String endereco;
+    private String complemento;
     private String cep;
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
     private Long usuarioId;
 
 }

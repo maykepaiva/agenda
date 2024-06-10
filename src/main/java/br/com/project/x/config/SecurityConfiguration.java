@@ -26,10 +26,11 @@ public class SecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authoriza -> authoriza
+                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/contact").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/acesso/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/acesso/user").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -43,7 +44,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

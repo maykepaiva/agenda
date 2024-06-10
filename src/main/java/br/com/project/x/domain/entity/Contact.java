@@ -36,7 +36,7 @@ public class Contact {
 
     @Column(nullable = false)
     private String endereco;
-
+    private String complemento;
     @Column(nullable = false)
     private String CEP;
 

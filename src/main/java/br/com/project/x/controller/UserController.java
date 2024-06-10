@@ -33,4 +33,5 @@ public class UserController {
          var response = userService.findAllUser();
         return response;
     }
+
 }

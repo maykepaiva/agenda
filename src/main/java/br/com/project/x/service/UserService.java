@@ -10,28 +10,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
     private final ModelMapper mapper = new ModelMapper();
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserRequest userRequest) {
-        User emailValidate = repository.findByEmail(userRequest.getEmail());
-        if (emailValidate != null) {
+        Optional<User> usuarioOptional = userRepository.findByEmail(userRequest.getEmail());
+        if (usuarioOptional.isPresent()) {
             throw new RuntimeException("Email já cadastrado");
         }
         userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        User userEntity = repository.save(mapper.map(userRequest, User.class));
+        User userEntity = userRepository.save(mapper.map(userRequest, User.class));
         return mapper.map(userEntity, UserResponse.class);
     }
 
     public List<User> findAllUser() {
-        return repository.findAll();
+        return userRepository.findAll();
     }
 }

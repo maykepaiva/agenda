@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -30,14 +31,12 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (token != null) {
             String email = authenticationService.validaTokenJwt(token);
-            User user = userRepository.findByEmail(email);
-
+            Optional<User> usuarioOptional = userRepository.findByEmail(email);
+            User user = usuarioOptional.orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
             if (user == null) {
-                throw new UnavailableException("Unauthorizade");
+                throw new UnavailableException("Unauthorized");
             }
-
             var autentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
             SecurityContextHolder.getContext().setAuthentication(autentication);
         }
 
